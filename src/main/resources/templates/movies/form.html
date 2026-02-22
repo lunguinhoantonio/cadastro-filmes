@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(${movie.id == null ? 'Novo Filme' : 'Editar Filme'}, ~{::section})">
+<body>
+<section>
+    <div class="page-header animate-in">
+        <div class="page-header-left">
+            <div class="breadcrumb">
+                <a th:href="@{/}" class="breadcrumb-link">Início</a>
+                <span class="breadcrumb-sep"><i data-lucide="chevron-right"></i></span>
+                <a th:href="@{/movies}" class="breadcrumb-link">Filmes</a>
+                <span class="breadcrumb-sep"><i data-lucide="chevron-right"></i></span>
+                <span th:text="${movie.id == null ? 'Novo' : 'Editar'}">Novo</span>
+            </div>
+            <h1 class="page-title" th:text="${movie.id == null ? 'Novo Filme' : 'Editar Filme'}">Novo Filme</h1>
+        </div>
+        <a th:href="@{/movies}" class="btn btn-ghost">
+            <i data-lucide="arrow-left"></i> Voltar
+        </a>
+    </div>
+
+    <div class="form-container animate-up" style="animation-delay:0.1s">
+        <form th:action="${movie.id == null ? '/movies' : '/movies/' + movie.id}" method="post" class="form">
+            <div class="form-grid">
+                <div class="form-group form-group-full">
+                    <label class="form-label" for="title">
+                        <i data-lucide="type"></i> Título *
+                    </label>
+                    <input type="text" id="title" name="title" th:value="${movie.title}"
+                           class="form-input" placeholder="Digite o título do filme" required/>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label class="form-label" for="description">
+                        <i data-lucide="align-left"></i> Descrição
+                    </label>
+                    <textarea id="description" name="description" class="form-textarea"
+                              placeholder="Sinopse ou descrição do filme..." rows="3"
+                              th:text="${movie.description}"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="releaseDate">
+                        <i data-lucide="calendar"></i> Data de Lançamento
+                    </label>
+                    <input type="date" id="releaseDate" name="releaseDate"
+                           th:value="${movie.releaseDate}" class="form-input"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="rating">
+                        <i data-lucide="star"></i> Rating (0–10)
+                    </label>
+                    <input type="number" id="rating" name="rating" th:value="${movie.rating}"
+                           class="form-input" placeholder="Ex: 8.5" min="0" max="10" step="0.1"/>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label class="form-label">
+                        <i data-lucide="tag"></i> Categorias
+                    </label>
+                    <div class="checkbox-group">
+                        <label th:each="cat : ${categories}" class="checkbox-item">
+                            <input type="checkbox" name="categoryIds" th:value="${cat.id}"
+                                   th:checked="${movie.categories != null and movie.categories.contains(cat)}"/>
+                            <span th:text="${cat.name}">Categoria</span>
+                        </label>
+                        <p th:if="${#lists.isEmpty(categories)}" class="form-hint">
+                            Nenhuma categoria cadastrada. <a th:href="@{/categories/new}">Criar categoria →</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-full">
+                    <label class="form-label">
+                        <i data-lucide="tv-2"></i> Streamings
+                    </label>
+                    <div class="checkbox-group">
+                        <label th:each="str : ${streamings}" class="checkbox-item">
+                            <input type="checkbox" name="streamingIds" th:value="${str.id}"
+                                   th:checked="${movie.streamings != null and movie.streamings.contains(str)}"/>
+                            <span th:text="${str.name}">Streaming</span>
+                        </label>
+                        <p th:if="${#lists.isEmpty(streamings)}" class="form-hint">
+                            Nenhum streaming cadastrado. <a th:href="@{/streamings/new}">Criar streaming →</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a th:href="@{/movies}" class="btn btn-ghost">
+                    <i data-lucide="x"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i data-lucide="save" th:if="${movie.id != null}"></i>
+                    <i data-lucide="plus" th:if="${movie.id == null}"></i>
+                    <span th:text="${movie.id == null ? 'Cadastrar Filme' : 'Salvar Alterações'}">Salvar</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

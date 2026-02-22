@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout('Erro', ~{::section})}">
+<body>
+<section>
+    <div class="empty-state animate-up" style="margin-top: 60px;">
+        <i data-lucide="triangle-alert" class="empty-icon"></i>
+        <h3 th:text="${errorTitle ?: 'Erro'}">Erro</h3>
+        <p th:text="${errorMessage ?: 'Algo deu errado.'}">Algo deu errado.</p>
+        <a th:href="@{/}" class="btn btn-primary"><i data-lucide="house"></i> Voltar ao Início</a>
+    </div>
+</section>
+</body>
+</html>

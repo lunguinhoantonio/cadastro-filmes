@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout('Streamings', ~{::section})">
+<body>
+<section>
+    <div class="page-header animate-in">
+        <div class="page-header-left">
+            <div class="breadcrumb">
+                <a th:href="@{/}" class="breadcrumb-link">Início</a>
+                <span class="breadcrumb-sep"><i data-lucide="chevron-right"></i></span>
+                <span>Streamings</span>
+            </div>
+            <h1 class="page-title">Streamings</h1>
+            <p class="page-subtitle" th:text="${streamings?.size() ?: 0} + ' plataformas cadastradas'">0 plataformas</p>
+        </div>
+        <a th:href="@{/streamings/new}" class="btn btn-primary">
+            <i data-lucide="plus"></i> Novo Streaming
+        </a>
+    </div>
+
+    <div class="search-bar animate-up" style="animation-delay:0.1s">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar streamings..." oninput="filterTable()"/>
+    </div>
+
+    <div th:if="${#lists.isEmpty(streamings)}" class="empty-state animate-up" style="animation-delay:0.2s">
+        <i data-lucide="tv-2" class="empty-icon"></i>
+        <h3>Nenhuma plataforma cadastrada</h3>
+        <p>Adicione plataformas de streaming para associar aos filmes.</p>
+        <a th:href="@{/streamings/new}" class="btn btn-primary"><i data-lucide="plus"></i> Novo Streaming</a>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(streamings)}" class="cards-grid animate-up" style="animation-delay:0.2s">
+        <div th:each="streaming : ${streamings}" class="item-card">
+            <div class="item-card-header">
+                <div class="item-card-icon"><i data-lucide="tv-2"></i></div>
+                <div class="action-group">
+                    <a th:href="@{/streamings/{id}/edit(id=${streaming.id})}" class="btn-icon btn-edit" title="Editar streaming">
+                        <i data-lucide="pencil"></i>
+                    </a>
+                    <form th:action="@{/streamings/{id}/deletar(id=${streaming.id})}" method="post" onsubmit="return confirmDelete(event)">
+                        <button type="submit" class="btn-icon btn-delete" title="Excluir streaming">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <h3 class="item-card-title" th:text="${streaming.name}">Nome</h3>
+            <div class="item-card-footer">
+                <span class="badge badge-streaming">ID <span th:text="${streaming.id}">1</span></span>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout('Filmes', ~{::section})">
+<body>
+<section>
+    <div class="page-header animate-in">
+        <div class="page-header-left">
+            <div class="breadcrumb">
+                <a th:href="@{/}" class="breadcrumb-link">Início</a>
+                <span class="breadcrumb-sep"><i data-lucide="chevron-right"></i></span>
+                <span>Filmes</span>
+            </div>
+            <h1 class="page-title">Filmes</h1>
+            <p class="page-subtitle" th:text="${movies?.size() ?: 0} + ' filmes cadastrados'">0 filmes</p>
+        </div>
+        <a th:href="@{/movies/new}" class="btn btn-primary">
+            <i data-lucide="plus"></i> Novo Filme
+        </a>
+    </div>
+
+    <div class="search-bar animate-up" style="animation-delay:0.1s">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar filmes por título, descrição..." oninput="filterTable()"/>
+    </div>
+
+    <div th:if="${#lists.isEmpty(movies)}" class="empty-state animate-up" style="animation-delay:0.2s">
+        <i data-lucide="film" class="empty-icon"></i>
+        <h3>Nenhum filme cadastrado</h3>
+        <p>Comece adicionando seu primeiro filme ao catálogo.</p>
+        <a th:href="@{/movies/new}" class="btn btn-primary"><i data-lucide="plus"></i> Adicionar Filme</a>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(movies)}" class="table-wrapper animate-up" style="animation-delay:0.2s">
+        <table class="table" id="mainTable">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Título</th>
+                <th>Categorias</th>
+                <th>Streamings</th>
+                <th>Lançamento</th>
+                <th>Rating</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="movie, iter : ${movies}" class="table-row">
+                <td class="table-id" th:text="${iter.index + 1}">1</td>
+                <td>
+                    <div class="table-title-cell">
+                        <div class="table-avatar" th:text="${#strings.substring(movie.title, 0, 1)}">M</div>
+                        <div>
+                            <span class="table-title" th:text="${movie.title}">Título</span>
+                            <span class="table-meta" th:text="${movie.description != null ? #strings.abbreviate(movie.description, 45) : '—'}">Desc</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span th:each="cat : ${movie.categories}" class="badge badge-category" th:text="${cat.name}">Cat</span>
+                    <span th:if="${#lists.isEmpty(movie.categories)}" class="table-meta">—</span>
+                </td>
+                <td>
+                    <span th:each="str : ${movie.streamings}" class="badge badge-streaming" th:text="${str.name}">Stream</span>
+                    <span th:if="${#lists.isEmpty(movie.streamings)}" class="table-meta">—</span>
+                </td>
+                <td class="table-year" th:text="${movie.releaseDate != null ? #temporals.format(movie.releaseDate, 'dd/MM/yyyy') : '—'}">—</td>
+                <td><span class="badge badge-rating" th:text="${movie.rating}">0.0</span></td>
+                <td>
+                    <div class="action-group">
+                        <a th:href="@{/movies/{id}/edit(id=${movie.id})}" class="btn-icon btn-edit" title="Editar filme">
+                            <i data-lucide="pencil"></i>
+                        </a>
+                        <form th:action="@{/movies/{id}/deletar(id=${movie.id})}" method="post" onsubmit="return confirmDelete(event)">
+                            <button type="submit" class="btn-icon btn-delete" title="Excluir filme">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

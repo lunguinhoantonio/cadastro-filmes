@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout('Início', ~{::section})">
+<body>
+<section>
+    <div class="hero animate-in">
+        <div class="hero-bg">
+            <div class="hero-grain"></div>
+            <div class="hero-blob blob-1"></div>
+            <div class="hero-blob blob-2"></div>
+            <div class="hero-blob blob-3"></div>
+        </div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Bem-vindo ao</p>
+            <h1 class="hero-title">Movieflix</h1>
+            <p class="hero-subtitle">Gerencie seu catálogo de filmes, categorias e plataformas de streaming em um só lugar.</p>
+            <div class="hero-actions">
+                <a th:href="@{/movies/new}" class="btn btn-primary">
+                    <i data-lucide="plus"></i> Adicionar Filme
+                </a>
+                <a th:href="@{/movies}" class="btn btn-ghost">
+                    Ver Catálogo <i data-lucide="arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-grid animate-up" style="animation-delay:0.2s">
+        <div class="stat-card">
+            <div class="stat-icon"><i data-lucide="film"></i></div>
+            <div class="stat-info">
+                <span class="stat-number" th:text="${totalMovies ?: 0}">0</span>
+                <span class="stat-label">Filmes</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i data-lucide="tag"></i></div>
+            <div class="stat-info">
+                <span class="stat-number" th:text="${totalCategories ?: 0}">0</span>
+                <span class="stat-label">Categorias</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i data-lucide="tv-2"></i></div>
+            <div class="stat-info">
+                <span class="stat-number" th:text="${totalStreamings ?: 0}">0</span>
+                <span class="stat-label">Streamings</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i data-lucide="users"></i></div>
+            <div class="stat-info">
+                <span class="stat-number" th:text="${totalUsers ?: 0}">0</span>
+                <span class="stat-label">Usuários</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title animate-up">Acesso Rápido</h2>
+        <div class="quick-actions">
+            <a th:href="@{/movies}" class="quick-card animate-up" style="animation-delay:0.1s">
+                <div class="quick-card-icon"><i data-lucide="film"></i></div>
+                <div class="quick-card-body"><h3>Filmes</h3><p>Gerencie o catálogo completo de filmes</p></div>
+                <i data-lucide="arrow-right" class="quick-card-arrow"></i>
+            </a>
+            <a th:href="@{/categories}" class="quick-card animate-up" style="animation-delay:0.2s">
+                <div class="quick-card-icon"><i data-lucide="tag"></i></div>
+                <div class="quick-card-body"><h3>Categorias</h3><p>Organize filmes por gênero e tipo</p></div>
+                <i data-lucide="arrow-right" class="quick-card-arrow"></i>
+            </a>
+            <a th:href="@{/streamings}" class="quick-card animate-up" style="animation-delay:0.3s">
+                <div class="quick-card-icon"><i data-lucide="tv-2"></i></div>
+                <div class="quick-card-body"><h3>Streamings</h3><p>Plataformas onde os filmes estão disponíveis</p></div>
+                <i data-lucide="arrow-right" class="quick-card-arrow"></i>
+            </a>
+            <a th:href="@{/users}" class="quick-card animate-up" style="animation-delay:0.4s">
+                <div class="quick-card-icon"><i data-lucide="users"></i></div>
+                <div class="quick-card-body"><h3>Usuários</h3><p>Gerencie contas e permissões</p></div>
+                <i data-lucide="arrow-right" class="quick-card-arrow"></i>
+            </a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

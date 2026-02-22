@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(${user.id == null ? 'Novo Usuário' : 'Editar Usuário'}, ~{::section})">
+<body>
+<section>
+    <div class="page-header animate-in">
+        <div class="page-header-left">
+            <div class="breadcrumb">
+                <a th:href="@{/}" class="breadcrumb-link">Início</a>
+                <span class="breadcrumb-sep"><i data-lucide="chevron-right"></i></span>
+                <a th:href="@{/users}" class="breadcrumb-link">Usuários</a>
+                <span class="breadcrumb-sep"><i data-lucide="chevron-right"></i></span>
+                <span th:text="${user.id == null ? 'Novo' : 'Editar'}">Novo</span>
+            </div>
+            <h1 class="page-title" th:text="${user.id == null ? 'Novo Usuário' : 'Editar Usuário'}">Novo Usuário</h1>
+        </div>
+        <a th:href="@{/users}" class="btn btn-ghost"><i data-lucide="arrow-left"></i> Voltar</a>
+    </div>
+
+    <div class="form-container animate-up" style="animation-delay:0.1s">
+        <form th:action="${user.id == null ? '/users' : '/users/' + user.id}" method="post" class="form">
+            <div class="form-grid">
+                <div class="form-group form-group-full">
+                    <label class="form-label" for="name"><i data-lucide="user"></i> Nome *</label>
+                    <input type="text" id="name" name="name" th:value="${user.name}"
+                           class="form-input" placeholder="Nome completo" required/>
+                </div>
+                <div class="form-group" th:classappend="${user.id != null} ? 'form-group-full'">
+                    <label class="form-label" for="email"><i data-lucide="mail"></i> E-mail *</label>
+                    <input type="email" id="email" name="email" th:value="${user.email}"
+                           class="form-input" placeholder="email@exemplo.com" required/>
+                </div>
+                <div class="form-group" th:if="${user.id == null}">
+                    <label class="form-label" for="password"><i data-lucide="lock"></i> Senha *</label>
+                    <input type="password" id="password" name="password"
+                           class="form-input" placeholder="••••••••" required/>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a th:href="@{/users}" class="btn btn-ghost"><i data-lucide="x"></i> Cancelar</a>
+                <button type="submit" class="btn btn-primary">
+                    <i data-lucide="save" th:if="${user.id != null}"></i>
+                    <i data-lucide="user-plus" th:if="${user.id == null}"></i>
+                    <span th:text="${user.id == null ? 'Cadastrar' : 'Salvar'}">Salvar</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

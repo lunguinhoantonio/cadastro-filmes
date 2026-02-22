@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(title, content)">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title} + ' — Movieflix'">Movieflix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<nav class="navbar">
+    <a th:href="@{/}" class="navbar-brand">
+        <i data-lucide="clapperboard" class="brand-lucide"></i>
+        <span class="brand-name">Movieflix</span>
+    </a>
+    <div class="navbar-links">
+        <a th:href="@{/movies}" class="nav-link" th:classappend="${currentPage == 'movies'} ? 'active'">
+            <i data-lucide="film"></i> Filmes
+        </a>
+        <a th:href="@{/categories}" class="nav-link" th:classappend="${currentPage == 'categories'} ? 'active'">
+            <i data-lucide="tag"></i> Categorias
+        </a>
+        <a th:href="@{/streamings}" class="nav-link" th:classappend="${currentPage == 'streamings'} ? 'active'">
+            <i data-lucide="tv-2"></i> Streamings
+        </a>
+        <a th:href="@{/users}" class="nav-link" th:classappend="${currentPage == 'users'} ? 'active'">
+            <i data-lucide="users"></i> Usuários
+        </a>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="Alternar tema">
+        <i data-lucide="sun"  class="theme-icon sun"></i>
+        <i data-lucide="moon" class="theme-icon moon" style="color: #F0EDE8"></i>
+    </button>
+</nav>
+
+<div class="toast-container" id="toastContainer">
+    <div th:if="${successMessage}" class="toast toast-success show">
+        <i data-lucide="circle-check"></i>
+        <span th:text="${successMessage}">Sucesso!</span>
+    </div>
+    <div th:if="${errorMessage}" class="toast toast-error show">
+        <i data-lucide="circle-x"></i>
+        <span th:text="${errorMessage}">Erro!</span>
+    </div>
+</div>
+
+<main class="main-content">
+    <div th:replace="${content}">Conteúdo</div>
+</main>
+
+<footer class="footer">
+    <p>Movieflix &copy; 2026 — Cadastro de Filmes &amp; Streamings</p>
+</footer>
+
+<script th:src="@{/js/main.js}"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

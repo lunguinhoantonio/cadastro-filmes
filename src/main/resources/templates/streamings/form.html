@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(${streaming.id == null ? 'Novo Streaming' : 'Editar Streaming'}, ~{::section})">
+<body>
+<section>
+    <div class="page-header animate-in">
+        <div class="page-header-left">
+            <div class="breadcrumb">
+                <a th:href="@{/}" class="breadcrumb-link">Início</a>
+                <span class="breadcrumb-sep"><i data-lucide="chevron-right"></i></span>
+                <a th:href="@{/streamings}" class="breadcrumb-link">Streamings</a>
+                <span class="breadcrumb-sep"><i data-lucide="chevron-right"></i></span>
+                <span th:text="${streaming.id == null ? 'Novo' : 'Editar'}">Novo</span>
+            </div>
+            <h1 class="page-title" th:text="${streaming.id == null ? 'Novo Streaming' : 'Editar Streaming'}">Novo Streaming</h1>
+        </div>
+        <a th:href="@{/streamings}" class="btn btn-ghost"><i data-lucide="arrow-left"></i> Voltar</a>
+    </div>
+
+    <div class="form-container animate-up" style="animation-delay:0.1s">
+        <form th:action="${streaming.id == null ? '/streamings' : '/streamings/' + streaming.id}" method="post" class="form">
+            <div class="form-grid">
+                <div class="form-group form-group-full">
+                    <label class="form-label" for="name"><i data-lucide="tv-2"></i> Nome *</label>
+                    <input type="text" id="name" name="name" th:value="${streaming.name}"
+                           class="form-input" placeholder="Ex: Netflix, Amazon Prime..." required/>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a th:href="@{/streamings}" class="btn btn-ghost"><i data-lucide="x"></i> Cancelar</a>
+                <button type="submit" class="btn btn-primary">
+                    <i data-lucide="save" th:if="${streaming.id != null}"></i>
+                    <i data-lucide="plus" th:if="${streaming.id == null}"></i>
+                    <span th:text="${streaming.id == null ? 'Cadastrar' : 'Salvar'}">Salvar</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
